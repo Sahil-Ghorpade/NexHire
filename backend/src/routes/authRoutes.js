@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { signupValidator, validate } from "../validators/authValidator.js";
 
 import {
   signup,
@@ -16,7 +17,7 @@ const router = Router();
 /**
  * Authentication Routes
  */
-router.post("/signup", signup);
+router.post("/signup", signupValidator, validate, signup);
 router.post("/verify-otp", verifyOTP);
 router.post("/resend-otp", resendOTP);
 router.post("/login", login);

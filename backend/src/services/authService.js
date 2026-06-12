@@ -49,16 +49,31 @@ export const signupService = async ({
   email,
   password,
 }) => {
-  const existingUser = await User.findOne({ email });
+  const existingUser = await User.findOne({
+    email,
+  });
 
-  if (existingUser) {
+  // Block verified users
+  if (existingUser?.isVerified) {
     throw new Error("Email already registered");
   }
 
-  const passwordHash = await hashPassword(password);
+  // Remove old unverified account
+  if (existingUser && !existingUser.isVerified) {
+    await User.findByIdAndDelete(
+      existingUser._id
+    );
+  }
+
+  const passwordHash = await hashPassword(
+    password
+  );
 
   const otp = generateOTP();
-  const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
+
+  const otpExpiry = new Date(
+    Date.now() + 10 * 60 * 1000
+  );
 
   const user = await User.create({
     name,
@@ -70,13 +85,25 @@ export const signupService = async ({
     otpExpiry,
   });
 
-  await sendEmail(
-    email,
-    "Verify Your NexHire Account",
-    otpEmailTemplate(otp, "verify your account")
-  );
+  try {
+    await sendEmail(
+      email,
+      "Verify Your NexHire Account",
+      otpEmailTemplate(
+        otp,
+        "verify your account"
+      )
+    );
 
-  return user;
+    return user;
+  } catch (error) {
+    // Remove user if email sending fails
+    await User.findByIdAndDelete(user._id);
+
+    throw new Error(
+      "Failed to send OTP email. Please try again."
+    );
+  }
 };
 
 /**
