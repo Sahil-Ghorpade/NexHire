@@ -5,6 +5,7 @@ import morgan from "morgan";
 import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import roleRoutes from "./routes/roleRoutes.js";
+import interviewRoutes from "./routes/interviewRoutes.js";
 
 const app = express();
 
@@ -42,5 +43,9 @@ app.get("/health", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/role", roleRoutes);
+app.use(
+  "/api/interview",
+  interviewRoutes
+);
 
 export default app;
