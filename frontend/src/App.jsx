@@ -18,6 +18,8 @@ import ResumePage from "./pages/ResumePage";
 import HistoryPage from "./pages/HistoryPage";
 import SettingsPage from "./pages/SettingsPage";
 
+import SidebarLayout from "./components/SidebarLayout";
+
 function App() {
   return (
     <BrowserRouter>
@@ -49,7 +51,9 @@ function App() {
           path="/dashboard"
           element={
             <ProtectedRoute>
-              <DashboardPage />
+              <SidebarLayout>
+                <DashboardPage />
+              </SidebarLayout>
             </ProtectedRoute>
           }
         />
@@ -58,7 +62,9 @@ function App() {
           path="/interview"
           element={
             <ProtectedRoute>
-              <InterviewPage />
+              <SidebarLayout>
+                <InterviewPage />
+              </SidebarLayout>
             </ProtectedRoute>
           }
         />
@@ -67,7 +73,9 @@ function App() {
           path="/resume"
           element={
             <ProtectedRoute>
-              <ResumePage />
+              <SidebarLayout>
+                <ResumePage />
+              </SidebarLayout>
             </ProtectedRoute>
           }
         />
@@ -76,7 +84,9 @@ function App() {
           path="/history"
           element={
             <ProtectedRoute>
-              <HistoryPage />
+              <SidebarLayout>
+                <HistoryPage />
+              </SidebarLayout>
             </ProtectedRoute>
           }
         />
@@ -85,7 +95,9 @@ function App() {
           path="/settings"
           element={
             <ProtectedRoute>
-              <SettingsPage />
+              <SidebarLayout>
+                <SettingsPage />
+              </SidebarLayout>
             </ProtectedRoute>
           }
         />
