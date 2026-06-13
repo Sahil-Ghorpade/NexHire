@@ -43,6 +43,9 @@ function LoginPage() {
   const verified =
     location.state?.verified || false;
 
+  const passwordReset =
+    location.state?.passwordReset || false;
+
   const [apiError, setApiError] =
     useState("");
 
@@ -133,6 +136,13 @@ function LoginPage() {
             <div className="mb-6 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
               Email verified successfully.
               You can now log in.
+            </div>
+          )}
+
+          {passwordReset && (
+            <div className="mb-6 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-700">
+              Password updated successfully.
+              Please log in.
             </div>
           )}
 
