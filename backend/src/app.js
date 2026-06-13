@@ -6,6 +6,7 @@ import authRoutes from "./routes/authRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import roleRoutes from "./routes/roleRoutes.js";
 import interviewRoutes from "./routes/interviewRoutes.js";
+import resumeRoutes from "./routes/resumeRoutes.js";
 
 const app = express();
 
@@ -46,6 +47,10 @@ app.use("/api/role", roleRoutes);
 app.use(
   "/api/interview",
   interviewRoutes
+);
+app.use(
+  "/api/resume",
+  resumeRoutes
 );
 
 export default app;
