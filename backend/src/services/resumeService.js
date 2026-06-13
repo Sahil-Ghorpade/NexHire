@@ -38,6 +38,17 @@ export const analyzeResumeService = async ({
 }) => {
   let extractedText = "";
 
+   /**
+   * File Size Validation (5 MB)
+   */
+  const MAX_FILE_SIZE = 5 * 1024 * 1024;
+
+  if (!fileBuffer || fileBuffer.length > MAX_FILE_SIZE) {
+    throw new Error(
+      "File size exceeds the maximum limit of 5 MB."
+    );
+  }
+
   /**
    * Extract text from PDF
    */
@@ -176,6 +187,10 @@ ${resumeText}
   } catch (error) {
     throw new Error(
       "Failed to parse ATS analysis response"
+    );
+
+    throw new Error(
+      "Resume analysis service is temporarily unavailable. Please try again later,"
     );
   }
 
