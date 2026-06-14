@@ -103,7 +103,7 @@ export const analyzeResumeService = async ({
   const resumeText =
     extractedText.slice(
       0,
-      15000
+      10000
     );
 
   /**
