@@ -9,7 +9,10 @@ import {
   Trash2,
   ChevronDown,
   ChevronUp,
+  Download,
 } from "lucide-react";
+
+import { downloadPDF } from "../utils/downloadPDF";
 
 function HistoryPage() {
   /**
@@ -429,6 +432,26 @@ function HistoryPage() {
                           size={16}
                         />
                       )}
+                    </button>
+
+                    <button
+                      onClick={async () => {
+                        try {
+                          const endpoint = item.itemType === "interview"
+                            ? `/api/interview/${item._id}/download`
+                            : `/api/resume/${item._id}/download`;
+                          const filename = item.itemType === "interview"
+                            ? `interview-report.pdf`
+                            : `resume-analysis.pdf`;
+                          await downloadPDF(endpoint, filename);
+                        } catch (err) {
+                          setError(err.message);
+                        }
+                      }}
+                      className="flex items-center gap-2 rounded-lg border border-[#e2e8f0] px-4 py-2"
+                    >
+                      <Download size={16} />
+                      Download
                     </button>
 
                     <button

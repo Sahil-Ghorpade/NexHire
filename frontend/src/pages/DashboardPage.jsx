@@ -288,6 +288,17 @@ function DashboardPage() {
           <section className="grid gap-4 md:grid-cols-3">
             <div className="rounded-xl border border-[#e2e8f0] bg-white px-5 py-4 shadow-sm">
               <p className="text-sm text-[#64748b]">
+                Total Activity
+              </p>
+
+              <h3 className="mt-2 text-2xl font-bold text-[#0f172a]">
+                {stats.totalInterviews +
+                  stats.totalAnalyses}
+              </h3>
+            </div>
+
+            <div className="rounded-xl border border-[#e2e8f0] bg-white px-5 py-4 shadow-sm">
+              <p className="text-sm text-[#64748b]">
                 Best Interview Score
               </p>
 
@@ -315,17 +326,6 @@ function DashboardPage() {
                   0
                 )}
                 %
-              </h3>
-            </div>
-
-            <div className="rounded-xl border border-[#e2e8f0] bg-white px-5 py-4 shadow-sm">
-              <p className="text-sm text-[#64748b]">
-                Total Activity
-              </p>
-
-              <h3 className="mt-2 text-2xl font-bold text-[#0f172a]">
-                {stats.totalInterviews +
-                  stats.totalAnalyses}
               </h3>
             </div>
           </section>

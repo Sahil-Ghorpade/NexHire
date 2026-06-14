@@ -4,6 +4,8 @@ import ResumeAnalysis from "../models/ResumeAnalysis.js";
 
 import { analyzeResumeService } from "../services/resumeService.js";
 
+import { generateResumePDF } from "../services/pdfService.js";
+
 /**
  * Analyze Resume
  */
@@ -178,5 +180,82 @@ export const deleteResumeAnalysis =
         message:
           error.message,
       });
+    }
+  };
+
+/**
+ * Download Resume Analysis PDF
+ */
+export const downloadResumePDF =
+  async (req, res) => {
+    try {
+      const { id } =
+        req.params;
+
+      if (
+        !mongoose.Types.ObjectId.isValid(
+          id
+        )
+      ) {
+        return res
+          .status(400)
+          .json({
+            success: false,
+            message:
+              "Invalid analysis ID",
+          });
+      }
+
+      const analysis =
+        await ResumeAnalysis.findOne(
+          {
+            _id: id,
+            userId:
+              req.user._id,
+          }
+        );
+
+      if (!analysis) {
+        return res
+          .status(404)
+          .json({
+            success: false,
+            message:
+              "Analysis not found",
+          });
+      }
+
+      const doc =
+        generateResumePDF({
+          userName:
+            req.user.name,
+          analysis,
+        });
+
+      res.setHeader(
+        "Content-Type",
+        "application/pdf"
+      );
+
+      res.setHeader(
+        "Content-Disposition",
+        `attachment; filename="resume-analysis-${id}.pdf"`
+      );
+
+      doc.pipe(res);
+      doc.end();
+    } catch (error) {
+      console.error(
+        "Download Resume PDF Error:",
+        error
+      );
+
+      return res
+        .status(500)
+        .json({
+          success: false,
+          message:
+            "Failed to generate resume PDF",
+        });
     }
   };

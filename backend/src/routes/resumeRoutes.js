@@ -8,6 +8,7 @@ import {
   getResumeAnalyses,
   getResumeAnalysisById,
   deleteResumeAnalysis,
+  downloadResumePDF,
 } from "../controllers/resumeController.js";
 
 const router = Router();
@@ -116,6 +117,12 @@ router.get(
   "/:id",
   protect,
   getResumeAnalysisById
+);
+
+router.get(
+  "/:id/download",
+  protect,
+  downloadResumePDF
 );
 
 router.delete(

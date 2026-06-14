@@ -7,6 +7,8 @@ import {
   evaluateInterviewService,
 } from "../services/interviewService.js";
 
+import { generateInterviewPDF } from "../services/pdfService.js";
+
 /**
  * Generate interview questions
  */
@@ -242,5 +244,84 @@ export const deleteInterview =
         success: false,
         message: error.message,
       });
+    }
+  };
+
+/**
+ * Download Interview Report PDF
+ */
+export const downloadInterviewPDF =
+  async (req, res) => {
+    try {
+      const { id } =
+        req.params;
+
+      if (
+        !mongoose.Types.ObjectId.isValid(
+          id
+        )
+      ) {
+        return res
+          .status(400)
+          .json({
+            success: false,
+            message:
+              "Invalid interview ID",
+          });
+      }
+
+      const interview =
+        await Interview.findOne(
+          {
+            _id: id,
+            userId:
+              req.user._id,
+          }
+        );
+
+      if (!interview) {
+        return res
+          .status(404)
+          .json({
+            success: false,
+            message:
+              "Interview not found",
+          });
+      }
+
+      const doc =
+        generateInterviewPDF(
+          {
+            userName:
+              req.user.name,
+            interview,
+          }
+        );
+
+      res.setHeader(
+        "Content-Type",
+        "application/pdf"
+      );
+
+      res.setHeader(
+        "Content-Disposition",
+        `attachment; filename="interview-report-${id}.pdf"`
+      );
+
+      doc.pipe(res);
+      doc.end();
+    } catch (error) {
+      console.error(
+        "Download Interview PDF Error:",
+        error
+      );
+
+      return res
+        .status(500)
+        .json({
+          success: false,
+          message:
+            "Failed to generate interview PDF",
+        });
     }
   };

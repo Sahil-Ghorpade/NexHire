@@ -8,6 +8,7 @@ import {
   getInterviews,
   getInterviewById,
   deleteInterview,
+  downloadInterviewPDF,
 } from "../controllers/interviewController.js";
 
 const router = Router();
@@ -37,6 +38,12 @@ router.get(
   "/:id",
   protect,
   getInterviewById
+);
+
+router.get(
+  "/:id/download",
+  protect,
+  downloadInterviewPDF
 );
 
 router.delete(

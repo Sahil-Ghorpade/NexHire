@@ -23,6 +23,7 @@ import { useAuth } from "../context/AuthContext";
  */
 function SidebarLayout({
   children,
+  hideSidebar = false,
 }) {
   const navigate =
     useNavigate();
@@ -183,36 +184,38 @@ function SidebarLayout({
   return (
     <div className="min-h-screen bg-[#f8fafc]">
       {/* Mobile Navbar */}
-      <header className="sticky top-0 z-40 border-b border-[#e2e8f0] bg-white md:hidden">
-        <div className="flex items-center justify-between px-4 py-4">
-          <button
-            onClick={() =>
-              navigate(
-                "/dashboard"
-              )
-            }
-            className="text-xl font-bold text-[#2563eb]"
-          >
-            NexHire
-          </button>
+      {!hideSidebar && (
+        <header className="sticky top-0 z-40 border-b border-[#e2e8f0] bg-white md:hidden">
+          <div className="flex items-center justify-between px-4 py-4">
+            <button
+              onClick={() =>
+                navigate(
+                  "/dashboard"
+                )
+              }
+              className="text-xl font-bold text-[#2563eb]"
+            >
+              NexHire
+            </button>
 
-          <button
-            onClick={() =>
-              setIsSidebarOpen(
-                true
-              )
-            }
-            className="text-[#0f172a]"
-          >
-            <Menu
-              size={24}
-            />
-          </button>
-        </div>
-      </header>
+            <button
+              onClick={() =>
+                setIsSidebarOpen(
+                  true
+                )
+              }
+              className="text-[#0f172a]"
+            >
+              <Menu
+                size={24}
+              />
+            </button>
+          </div>
+        </header>
+      )}
 
       {/* Mobile Sidebar */}
-      {isSidebarOpen && (
+      {!hideSidebar && isSidebarOpen && (
         <>
           {/* Backdrop */}
           <div
@@ -260,12 +263,14 @@ function SidebarLayout({
       )}
 
       {/* Desktop Sidebar */}
-      <aside className="fixed left-0 top-0 hidden h-screen w-64 flex-col border-r border-[#e2e8f0] bg-white md:flex">
-        <SidebarContent />
-      </aside>
+      {!hideSidebar && (
+        <aside className="fixed left-0 top-0 hidden h-screen w-64 flex-col border-r border-[#e2e8f0] bg-white md:flex">
+          <SidebarContent />
+        </aside>
+      )}
 
       {/* Main Content */}
-      <main className="md:ml-64">
+      <main className={hideSidebar ?  "" : "md:ml-64"}>
         <div className="min-h-screen p-4 md:p-6 lg:p-8">
           {children}
         </div>

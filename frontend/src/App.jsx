@@ -62,9 +62,7 @@ function App() {
           path="/interview"
           element={
             <ProtectedRoute>
-              <SidebarLayout>
-                <InterviewPage />
-              </SidebarLayout>
+              <InterviewPage />
             </ProtectedRoute>
           }
         />
@@ -73,9 +71,7 @@ function App() {
           path="/resume"
           element={
             <ProtectedRoute>
-              <SidebarLayout>
-                <ResumePage />
-              </SidebarLayout>
+              <ResumePage />
             </ProtectedRoute>
           }
         />
