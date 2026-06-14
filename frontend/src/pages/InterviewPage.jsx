@@ -80,7 +80,7 @@ function InterviewPage() {
   ] = useState(0);
 
   const [timeLeft, setTimeLeft] =
-    useState(120);
+    useState(300);
 
   const [
     currentAnswer,
@@ -184,11 +184,10 @@ function InterviewPage() {
    */
   useEffect(() => {
     if (
-      phase ===
-        "session" &&
+      phase === "session" &&
       timeLeft === 0
     ) {
-      handleSkipQuestion();
+      handleTimeExpired();
     }
   }, [
     timeLeft,
@@ -416,7 +415,7 @@ function InterviewPage() {
           ""
         );
 
-        setTimeLeft(120);
+        setTimeLeft(300);
 
         setPhase(
           "session"
@@ -731,6 +730,59 @@ function InterviewPage() {
     );
   }
 
+  const handleTimeExpired =
+    () => {
+      const answer =
+        currentAnswer.trim();
+
+      // User wrote something
+      if (answer) {
+        const updatedAnswers =
+          [...answers];
+
+        updatedAnswers[
+          currentIndex
+        ] = answer;
+
+        setAnswers(
+          updatedAnswers
+        );
+      }
+      // User wrote nothing
+      else {
+        const updatedAnswers =
+          [...answers];
+
+        updatedAnswers[
+          currentIndex
+        ] = null;
+
+        setAnswers(
+          updatedAnswers
+        );
+      }
+
+      if (
+        currentIndex ===
+        questions.length - 1
+      ) {
+        setPhase(
+          "evaluating"
+        );
+
+        return;
+      }
+
+      setCurrentIndex(
+        (prev) =>
+          prev + 1
+      );
+
+      setCurrentAnswer("");
+
+      setTimeLeft(300);
+    };
+
   /**
    * Skip Current Question
    */
@@ -767,7 +819,7 @@ function InterviewPage() {
         ""
       );
 
-      setTimeLeft(120);
+      setTimeLeft(300);
     };
 
   /**
@@ -818,7 +870,7 @@ function InterviewPage() {
         ""
       );
 
-      setTimeLeft(120);
+      setTimeLeft(300);
     };
 
 
@@ -860,7 +912,7 @@ function InterviewPage() {
             </h2>
 
             <p className="mt-2 text-blue-100">
-              Answer carefully. Each question has 2 minutes.
+              Answer carefully. Each question has 5 minutes.
             </p>
 
           </div>  
@@ -1032,7 +1084,7 @@ function InterviewPage() {
 
       setCurrentIndex(0);
       setCurrentAnswer("");
-      setTimeLeft(120);
+      setTimeLeft(300);
 
       setRoleValidated(
         false

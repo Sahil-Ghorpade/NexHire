@@ -17,6 +17,7 @@ import InterviewPage from "./pages/InterviewPage";
 import ResumePage from "./pages/ResumePage";
 import HistoryPage from "./pages/HistoryPage";
 import SettingsPage from "./pages/SettingsPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 import SidebarLayout from "./components/SidebarLayout";
 
@@ -44,6 +45,11 @@ function App() {
         <Route
           path="/forgot-password"
           element={<ForgotPasswordPage />}
+        />
+
+        <Route
+          path="*"
+          element={<NotFoundPage />}
         />
 
         {/* Protected Routes */}
