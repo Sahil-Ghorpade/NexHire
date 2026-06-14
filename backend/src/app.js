@@ -20,7 +20,7 @@ app.use(helmet());
  */
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://nexhire-six.vercel.app",
+  "https://nexhire-ai-mu.vercel.app",
 ];
 
 const corsOptions = {
