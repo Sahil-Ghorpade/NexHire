@@ -7,6 +7,7 @@ import {
   forgotPasswordService,
   verifyResetOTPService,
   resetPasswordService,
+  verifyGoogleToken,
 } from "../services/authService.js";
 
 /**
@@ -112,25 +113,21 @@ export const login = async (req, res) => {
  */
 export const googleAuth = async (req, res) => {
   try {
-    const {
+    const { credential } = req.body;
+
+    const { googleId, email, name, avatar } =
+      await verifyGoogleToken(credential);
+
+    const { token, user } = await googleAuthService({
       googleId,
       email,
       name,
       avatar,
-    } = req.body;
-
-    const { token, user } =
-      await googleAuthService({
-        googleId,
-        email,
-        name,
-        avatar,
-      });
+    });
 
     return res.status(200).json({
       success: true,
-      message:
-        "Google authentication successful.",
+      message: "Google authentication successful.",
       token,
       user,
     });

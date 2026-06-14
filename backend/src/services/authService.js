@@ -9,6 +9,16 @@ import {
 import User from "../models/User.js";
 import sendEmail from "../utils/sendEmail.js";
 
+import { OAuth2Client } from "google-auth-library";
+
+/**
+ * Google OAuth Client
+ */
+const googleClient =
+  new OAuth2Client(
+    process.env.GOOGLE_CLIENT_ID
+  );
+
 /**
  * Generate a 6-digit OTP
  */
@@ -399,3 +409,44 @@ export const resetPasswordService = async ({
       "Password reset successfully",
   };
 };
+
+/**
+ * Verify Google ID Token
+ */
+export const verifyGoogleToken =
+  async (credential) => {
+    try {
+      const ticket =
+        await googleClient.verifyIdToken(
+          {
+            idToken:
+              credential,
+
+            audience:
+              process.env
+                .GOOGLE_CLIENT_ID,
+          }
+        );
+
+      const payload =
+        ticket.getPayload();
+
+      return {
+        googleId:
+          payload.sub,
+
+        email:
+          payload.email,
+
+        name:
+          payload.name,
+
+        avatar:
+          payload.picture,
+      };
+    } catch (error) {
+      throw new Error(
+        "Invalid Google token"
+      );
+    }
+  };
