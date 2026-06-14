@@ -16,10 +16,51 @@ const app = express();
 app.use(helmet());
 
 /**
- * Enable CORS
- * Allow all origins for now
+ * CORS Configuration
  */
-app.use(cors());
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://nexhire-six.vercel.app",
+];
+
+const corsOptions = {
+  origin: (
+    origin,
+    callback
+  ) => {
+    // Allow requests from Postman,
+    // Thunder Client, mobile apps, etc.
+    if (!origin) {
+      return callback(
+        null,
+        true
+      );
+    }
+
+    if (
+      allowedOrigins.includes(
+        origin
+      )
+    ) {
+      return callback(
+        null,
+        true
+      );
+    }
+
+    return callback(
+      new Error(
+        "Not allowed by CORS"
+      )
+    );
+  },
+
+  credentials: true,
+};
+
+app.use(
+  cors(corsOptions)
+);
 
 /**
  * Request Logger
