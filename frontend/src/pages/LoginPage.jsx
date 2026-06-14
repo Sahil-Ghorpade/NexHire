@@ -15,7 +15,7 @@ import {
   EyeOff,
 } from "lucide-react";
 
-import { FcGoogle } from "react-icons/fc";
+import { GoogleLogin } from "@react-oauth/google";
 
 import Logo from "../components/Logo";
 
@@ -109,13 +109,6 @@ function LoginPage() {
     }
   };
 
-  /**
-   * Placeholder Google Auth
-   */
-  const handleGoogleLogin = () => {
-    alert("Google auth coming soon");
-  };
-
   return (
     <div className="min-h-screen bg-[#f8fafc]">
       {/* Header */}
@@ -159,21 +152,54 @@ function LoginPage() {
             </p>
           </div>
 
-          {/* Google Login */}
-          <button
-            type="button"
-            onClick={handleGoogleLogin}
-            className="group flex w-full items-center justify-center gap-3 rounded-lg border border-[#e2e8f0] bg-white px-4 py-3 text-sm font-medium text-[#0f172a] transition-all duration-300 hover:border-[#4285F4] hover:bg-gradient-to-r hover:from-[#4285F4]/5 hover:via-[#34A853]/5 hover:to-[#EA4335]/5 hover:shadow-md"
-          >
-            <FcGoogle
-              size={22}
-              className="transition-transform duration-300 group-hover:scale-110"
-            />
+         {/* Google Login */}
+          <div className="flex justify-center">
+            <GoogleLogin
+              onSuccess={async (
+                credentialResponse
+              ) => {
+                try {
+                  setApiError("");
 
-            <span className="transition-colors duration-300 group-hover:text-[#2563eb]">
-              Continue with Google
-            </span>
-          </button>
+                  const response =
+                    await axiosInstance.post(
+                      "/api/auth/google",
+                      {
+                        credential:
+                          credentialResponse.credential,
+                      }
+                    );
+
+                  login(
+                    response.data.token,
+                    response.data.user
+                  );
+
+                  navigate(
+                    "/dashboard",
+                    {
+                      replace: true,
+                    }
+                  );
+                } catch (error) {
+                  const responseData =
+                    error?.response?.data;
+
+                  setApiError(
+                    responseData?.message ||
+                      "Google login failed"
+                  );
+                }
+              }}
+              onError={() =>
+                setApiError(
+                  "Google login failed"
+                )
+              }
+              width="320"
+              text="continue_with"
+            />
+          </div>          
 
           {/* Divider */}
           <div className="my-6 flex items-center">
