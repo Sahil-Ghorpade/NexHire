@@ -24,6 +24,7 @@ const sendEmail = async (to, subject, htmlContent) => {
       html: htmlContent,
     });
   } catch (error) {
+    console.error("SMTP Error:", error);
     throw new Error(`Failed to send email: ${error.message}`);
   }
 };
