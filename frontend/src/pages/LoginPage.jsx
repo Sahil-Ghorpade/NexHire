@@ -17,6 +17,8 @@ import {
 
 import { FcGoogle } from "react-icons/fc";
 
+import Logo from "../components/Logo";
+
 import axiosInstance from "../api/axiosInstance";
 import { useAuth } from "../context/AuthContext";
 
@@ -123,7 +125,7 @@ function LoginPage() {
             to="/"
             className="text-2xl font-bold text-[#2563eb]"
           >
-            NexHire
+            <Logo></Logo>
           </Link>
         </div>
       </header>

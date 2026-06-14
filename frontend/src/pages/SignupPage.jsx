@@ -11,6 +11,8 @@ import axiosInstance from "../api/axiosInstance";
 
 import { FcGoogle } from "react-icons/fc";
 
+import Logo from "../components/Logo";
+
 /**
  * Validation Schema
  */
@@ -144,7 +146,7 @@ function SignupPage() {
             to="/"
             className="text-2xl font-bold text-[#2563eb]"
           >
-            NexHire
+            <Logo></Logo>
           </Link>
         </div>
       </header>

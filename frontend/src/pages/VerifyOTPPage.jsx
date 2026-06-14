@@ -9,6 +9,8 @@ import {
   useNavigate,
 } from "react-router-dom";
 
+import Logo from "../components/Logo";
+
 import axiosInstance from "../api/axiosInstance";
 
 function VerifyOTPPage() {
@@ -204,7 +206,7 @@ function VerifyOTPPage() {
             to="/"
             className="text-2xl font-bold text-[#2563eb]"
           >
-            NexHire
+            <Logo></Logo>
           </Link>
         </div>
       </header>

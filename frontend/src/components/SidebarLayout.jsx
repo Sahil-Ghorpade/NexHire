@@ -16,6 +16,8 @@ import {
   X,
 } from "lucide-react";
 
+import Logo from "../components/Logo";
+
 import { useAuth } from "../context/AuthContext";
 
 /**
@@ -95,7 +97,7 @@ function SidebarLayout({
             }
             className="text-2xl font-bold text-[#2563eb]"
             >
-            NexHire
+            <Logo></Logo>
             </button>
         </div>
         )}
@@ -195,7 +197,7 @@ function SidebarLayout({
               }
               className="text-xl font-bold text-[#2563eb]"
             >
-              NexHire
+              <Logo></Logo>
             </button>
 
             <button
@@ -241,7 +243,7 @@ function SidebarLayout({
                 }}
                 className="text-2xl font-bold text-[#2563eb]"
               >
-                NexHire
+                <Logo></Logo>
               </button>
 
               <button

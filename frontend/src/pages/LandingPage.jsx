@@ -23,6 +23,8 @@ import {
   FaLinkedin,
 } from "react-icons/fa";
 
+import Logo from "../components/Logo";
+
 import { SiLeetcode } from "react-icons/si";
 
 import heroImage from "../assets/heroPage.png";
@@ -108,9 +110,16 @@ function LandingPage() {
                 "hero"
               )
             }
-            className="text-2xl font-bold text-[#2563eb]"
           >
-            NexHire
+            <div className="flex items-end gap-2">
+              <img
+                src="/favicon.svg"
+                alt="NexHire"
+                className="h-8 w-auto"
+              />
+
+              <Logo />
+            </div>
           </button>
 
           {/* Desktop Navigation */}
@@ -592,20 +601,18 @@ function LandingPage() {
           <div className="grid gap-10 md:grid-cols-3">
             
             {/* Brand */}
-            <div>
-              <button
-                onClick={() =>
-                  scrollToSection("hero")
-                }
-                className="text-2xl font-bold text-[#2563eb] transition hover:opacity-80"
-              >
-                NexHire
-              </button>
+<div className="flex flex-col items-start">
+  <button
+    onClick={() => scrollToSection("hero")}
+    className="transition hover:opacity-80"
+  >
+    <Logo></Logo>
+  </button>
 
-              <p className="mt-3 text-[#64748b]">
-                Your AI-powered interview preparation platform.
-              </p>
-            </div>
+  <p className="mt-2 text-sm text-[#64748b]">
+    Your AI-powered interview preparation platform.
+  </p>
+</div>
 
             {/* Quick Links */}
             <div>

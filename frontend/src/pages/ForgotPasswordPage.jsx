@@ -17,6 +17,8 @@ import {
   EyeOff,
 } from "lucide-react";
 
+import Logo from "../components/Logo";
+
 import axiosInstance from "../api/axiosInstance";
 
 /**
@@ -394,7 +396,7 @@ function ForgotPasswordPage() {
             to="/"
             className="text-2xl font-bold text-[#2563eb]"
           >
-            NexHire
+            <Logo></Logo>
           </Link>
         </div>
       </header>
