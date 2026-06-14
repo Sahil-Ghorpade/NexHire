@@ -1,34 +1,70 @@
 import "../config/env.js";
-import nodemailer from "nodemailer";
 
 /**
- * Gmail SMTP Transporter
+ * Send email using Brevo API
+ * (Render-friendly, no SMTP required)
  */
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASSWORD,
-  },
-});
+const sendEmail = async (
+  to,
+  subject,
+  htmlContent
+) => {
+  const response =
+    await fetch(
+      "https://api.brevo.com/v3/smtp/email",
+      {
+        method: "POST",
 
-/**
- * Send Email Utility
- */
-const sendEmail = async (to, subject, htmlContent) => {
-  try {
-    await transporter.sendMail({
-      from: `"NexHire" <${process.env.GMAIL_USER}>`,
-      to,
-      subject,
-      html: htmlContent,
-    });
-  } catch (error) {
-    console.error("SMTP Error:", error);
-    throw new Error(`Failed to send email: ${error.message}`);
+        headers: {
+          "api-key":
+            process.env.BREVO_API_KEY,
+
+          "Content-Type":
+            "application/json",
+
+          Accept:
+            "application/json",
+        },
+
+        body: JSON.stringify({
+          sender: {
+            name: "NexHire",
+            email:
+              process.env.GMAIL_USER,
+          },
+
+          to: [
+            {
+              email: to,
+            },
+          ],
+
+          subject,
+
+          htmlContent,
+        }),
+      }
+    );
+
+  if (!response.ok) {
+    let errorData = {};
+
+    try {
+      errorData =
+        await response.json();
+    } catch {
+      errorData = {};
+    }
+
+    throw new Error(
+      `Failed to send email: ${
+        errorData.message ||
+        response.statusText
+      }`
+    );
   }
+
+  return await response.json();
 };
 
 export default sendEmail;
