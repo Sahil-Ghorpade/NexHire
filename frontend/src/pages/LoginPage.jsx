@@ -17,7 +17,7 @@ import {
 
 import { GoogleLogin } from "@react-oauth/google";
 
-import Logo from "../components/common/Logo";
+import Logo from "../components/Logo";
 
 import axiosInstance from "../api/axiosInstance";
 import { useAuth } from "../context/AuthContext";

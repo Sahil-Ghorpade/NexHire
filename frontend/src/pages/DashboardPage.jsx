@@ -3,24 +3,24 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
-  ArrowRight,
-  BarChart2,
   Brain,
-  FileText,
   Star,
+  FileText,
+  BarChart2,
   TrendingUp,
+  ArrowRight,
 } from "lucide-react";
 
 import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Line,
-  LineChart,
   ResponsiveContainer,
-  Tooltip,
+  BarChart,
+  Bar,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
+  CartesianGrid,
+  Tooltip,
 } from "recharts";
 
 import axiosInstance from "../api/axiosInstance";

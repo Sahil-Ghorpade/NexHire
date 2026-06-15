@@ -7,7 +7,7 @@ import {
   FileText,
 } from "lucide-react";
 
-import SidebarLayout from "../../layouts/SidebarLayout";
+import SidebarLayout from "../SidebarLayout";
 
 function ResumeSetup({
   selectedRole,

@@ -1,6 +1,6 @@
 import { downloadPDF } from "../../utils/downloadPDF";
 
-import SidebarLayout from "../../layouts/SidebarLayout";
+import SidebarLayout from "../SidebarLayout";
 
 function ResumeReport({
   report,

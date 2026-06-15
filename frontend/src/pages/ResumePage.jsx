@@ -8,11 +8,12 @@ import {
 
 import axiosInstance from "../api/axiosInstance";
 
-import SidebarLayout from "../layouts/SidebarLayout";
+import SidebarLayout from "../components/SidebarLayout";
 
 import ResumeAnalyzing from "../components/resume/ResumeAnalyzing";
 import ResumeReport from "../components/resume/ResumeReport";
 import ResumeSetup from "../components/resume/ResumeSetup";
+
 
 function ResumePage() {
   const navigate = useNavigate();

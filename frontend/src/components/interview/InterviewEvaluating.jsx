@@ -1,4 +1,4 @@
-import SidebarLayout from "../../layouts/SidebarLayout";
+import SidebarLayout from "../../components/SidebarLayout";
 
 function InterviewEvaluating() {
   return (

@@ -1,4 +1,4 @@
-import SidebarLayout from "../../layouts/SidebarLayout";
+import SidebarLayout from "../SidebarLayout";
 
 import { downloadPDF } from "../../utils/downloadPDF";
 

@@ -17,7 +17,7 @@ import {
   EyeOff,
 } from "lucide-react";
 
-import Logo from "../components/common/Logo";
+import Logo from "../components/Logo";
 
 import axiosInstance from "../api/axiosInstance";
 
