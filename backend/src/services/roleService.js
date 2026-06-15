@@ -139,39 +139,7 @@ export const validateRole = async (
    * Gemini validation
    */
   const prompt = `
-  You are validating job titles for an AI interview preparation platform.
-
-  Determine whether "${cleanedRole}" is a commonly recognized professional job title that people apply for on job portals such as LinkedIn, Indeed, Naukri, or company career pages.
-
-  Examples of valid roles:
-  Software Engineer
-  Frontend Developer
-  Backend Developer
-  Full Stack Developer
-  Data Analyst
-  Data Scientist
-  Product Manager
-  UI UX Designer
-  HR Executive
-  Marketing Manager
-  Accountant
-
-  Examples of invalid roles:
-  Banana Seller
-  Potato Seller
-  Tea Vendor
-  Good Boy
-  Super Hero
-  King of Mars
-  Random Text
-
-  For the role "${cleanedRole}", answer ONLY:
-
-  YES
-
-  or
-
-  NO
+You are a job title validation expert for an AI interview preparation platform. Determine whether a given job title is a commonly recognized professional role that people apply for on job portals. Validate the input job title "${cleanedRole}" against a list of known professional job titles, such as Software Engineer, Data Scientist, or Marketing Manager. Avoid considering non-professional or humorous titles like Banana Seller or Super Hero. Structure your response as a simple "YES" or "NO" indicating whether the job title is valid.
   `;
 
   let response;
