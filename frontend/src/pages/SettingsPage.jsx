@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 
-import { FcGoogle } from "react-icons/fc";
 
 import { useForm } from "react-hook-form";
 
@@ -10,15 +9,15 @@ import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import {
-  Mail,
-  Eye,
-  EyeOff,
-} from "lucide-react";
 
 import axiosInstance from "../api/axiosInstance";
 
 import { useAuth } from "../context/AuthContext";
+
+import ConnectedAccountsSection from "../components/settings/ConnectedAccountsSection";
+import DangerZoneSection from "../components/settings/DangerZoneSection";
+import PasswordSection from "../components/settings/PasswordSection";
+import ProfileSection from "../components/settings/ProfileSection";
 
   /**
  * Password Schema
@@ -277,6 +276,40 @@ const handlePasswordSubmit =
     }
   };
 
+/**
+ * Delete Account
+ */
+const handleDeleteAccount =
+  async () => {
+    try {
+      setDeleteError("");
+
+      setDeletingAccount(
+        true
+      );
+
+      await axiosInstance.delete(
+        "/api/user/account"
+      );
+
+      logout();
+
+      navigate("/");
+    } catch (error) {
+      const responseData =
+        error?.response?.data;
+
+      setDeleteError(
+        responseData?.message ||
+          "Failed to delete account"
+      );
+    } finally {
+      setDeletingAccount(
+        false
+      );
+    }
+  };
+
   return (
     <div className="mx-auto max-w-5xl space-y-6 p-4 md:p-8">
       {/* Header */}
@@ -293,459 +326,66 @@ const handlePasswordSubmit =
       </div>
 
       {/* Profile Section */}
-      <section className="rounded-2xl border border-[#e2e8f0] bg-white p-6 shadow-sm">
-        <h2 className="mb-6 text-xl font-semibold text-[#0f172a]">
-          Profile
-        </h2>
-
-        {/* Avatar */}
-        <div className="mb-8 flex justify-center">
-          <div className="flex h-24 w-24 items-center justify-center rounded-full bg-blue-100 text-3xl font-bold text-[#2563eb]">
-            {user?.name?.charAt(
-              0
-            ) || "U"}
-          </div>
-        </div>
-
-        <form
-          onSubmit={
-            handleProfileSubmit
-          }
-          className="space-y-5"
-        >
-          {/* Name */}
-          <div>
-            <label className="mb-2 block text-sm font-medium text-[#0f172a]">
-              Full Name
-            </label>
-
-            <input
-              type="text"
-              value={name}
-              onChange={(e) =>
-                setName(
-                  e.target.value
-                )
-              }
-              className="
-                w-full
-                rounded-xl
-                border
-                border-[#e2e8f0]
-                px-4
-                py-3
-                outline-none
-                focus:border-[#2563eb]
-              "
-            />
-          </div>
-
-          {/* Messages */}
-          {profileSuccess && (
-            <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-green-700">
-              {
-                profileSuccess
-              }
-            </div>
-          )}
-
-          {profileError && (
-            <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-red-600">
-              {profileError}
-            </div>
-          )}
-
-          {/* Save Button */}
-          <button
-            type="submit"
-            disabled={
-              profileLoading
-            }
-            className="
-              rounded-xl
-              bg-[#2563eb]
-              px-5
-              py-3
-              font-medium
-              text-white
-              transition
-              hover:bg-blue-700
-              disabled:opacity-60
-            "
-          >
-            {profileLoading
-              ? "Saving..."
-              : "Save Changes"}
-          </button>
-        </form>
-      </section>
+      <ProfileSection
+        user={user}
+        name={name}
+        setName={setName}
+        profileLoading={profileLoading}
+        profileSuccess={profileSuccess}
+        profileError={profileError}
+        handleProfileSubmit={handleProfileSubmit}
+      />
 
       {/* Connected Accounts */}
-      <section className="rounded-2xl border border-[#e2e8f0] bg-white p-6 shadow-sm">
-        <h2 className="mb-6 text-xl font-semibold text-[#0f172a]">
-          Connected Accounts
-        </h2>
-
-        <div className="rounded-xl border border-[#e2e8f0] p-4">
-          {user?.authProvider ===
-          "google" ? (
-            <div className="flex items-center gap-4">
-              <FcGoogle
-                size={28}
-              />
-
-              <div>
-                <p className="font-medium text-[#0f172a]">
-                  Google Account
-                </p>
-
-                <p className="text-sm text-[#64748b]">
-                  {
-                    user.email
-                  }
-                </p>
-              </div>
-            </div>
-          ) : (
-            <div className="flex items-center gap-4">
-              <Mail
-                size={24}
-                className="text-[#2563eb]"
-              />
-
-              <div>
-                <p className="font-medium text-[#0f172a]">
-                  Email Account
-                </p>
-
-                <p className="text-sm text-[#64748b]">
-                  {
-                    user.email
-                  }
-                </p>
-              </div>
-            </div>
-          )}
-        </div>
-      </section>
+      <ConnectedAccountsSection
+        user={user}
+      />
 
       {/* Password Section */}
-<section className="rounded-2xl border border-[#e2e8f0] bg-white p-6 shadow-sm">
-  <h2 className="mb-6 text-xl font-semibold text-[#0f172a]">
-    Change Password
-  </h2>
+      <PasswordSection
+        user={user}
 
-  {user?.authProvider ===
-  "google" ? (
-    <div className="rounded-xl border border-blue-200 bg-blue-50 p-4 text-blue-700">
-      Password management is
-      not available for
-      Google accounts.
-    </div>
-  ) : (
-    <form
-      onSubmit={handleSubmit(
-        handlePasswordSubmit
-      )}
-      className="space-y-5"
-    >
-      {/* Current Password */}
-      <div>
-        <label className="mb-2 block text-sm font-medium text-[#0f172a]">
-          Current Password
-        </label>
+        register={register}
+        handleSubmit={handleSubmit}
+        handlePasswordSubmit={handlePasswordSubmit}
 
-        <div className="relative">
-          <input
-            type={
-              showCurrentPassword
-                ? "text"
-                : "password"
-            }
-            {...register(
-              "currentPassword"
-            )}
-            className="w-full rounded-xl border border-[#e2e8f0] px-4 py-3 pr-12 outline-none focus:border-[#2563eb]"
-          />
+        errors={errors}
 
-          <button
-            type="button"
-            onClick={() =>
-              setShowCurrentPassword(
-                !showCurrentPassword
-              )
-            }
-            className="absolute right-4 top-1/2 -translate-y-1/2"
-          >
-            {showCurrentPassword ? (
-              <EyeOff
-                size={18}
-              />
-            ) : (
-              <Eye
-                size={18}
-              />
-            )}
-          </button>
-        </div>
+        passwordLoading={passwordLoading}
+        passwordSuccess={passwordSuccess}
+        passwordError={passwordError}
 
-        {errors.currentPassword && (
-          <p className="mt-1 text-sm text-red-600">
-            {
-              errors
-                .currentPassword
-                .message
-            }
-          </p>
-        )}
-      </div>
+        showCurrentPassword={showCurrentPassword}
+        setShowCurrentPassword={setShowCurrentPassword}
 
-      {/* New Password */}
-      <div>
-        <label className="mb-2 block text-sm font-medium text-[#0f172a]">
-          New Password
-        </label>
+        showNewPassword={showNewPassword}
+        setShowNewPassword={setShowNewPassword}
 
-        <div className="relative">
-          <input
-            type={
-              showNewPassword
-                ? "text"
-                : "password"
-            }
-            {...register(
-              "newPassword"
-            )}
-            className="w-full rounded-xl border border-[#e2e8f0] px-4 py-3 pr-12 outline-none focus:border-[#2563eb]"
-          />
+        showConfirmPassword={showConfirmPassword}
+        setShowConfirmPassword={setShowConfirmPassword}
+      />
 
-          <button
-            type="button"
-            onClick={() =>
-              setShowNewPassword(
-                !showNewPassword
-              )
-            }
-            className="absolute right-4 top-1/2 -translate-y-1/2"
-          >
-            {showNewPassword ? (
-              <EyeOff
-                size={18}
-              />
-            ) : (
-              <Eye
-                size={18}
-              />
-            )}
-          </button>
-        </div>
 
-        {errors.newPassword && (
-          <p className="mt-1 text-sm text-red-600">
-            {
-              errors
-                .newPassword
-                .message
-            }
-          </p>
-        )}
-      </div>
-
-      {/* Confirm Password */}
-      <div>
-        <label className="mb-2 block text-sm font-medium text-[#0f172a]">
-          Confirm New Password
-        </label>
-
-        <div className="relative">
-          <input
-            type={
-              showConfirmPassword
-                ? "text"
-                : "password"
-            }
-            {...register(
-              "confirmPassword"
-            )}
-            className="w-full rounded-xl border border-[#e2e8f0] px-4 py-3 pr-12 outline-none focus:border-[#2563eb]"
-          />
-
-          <button
-            type="button"
-            onClick={() =>
-              setShowConfirmPassword(
-                !showConfirmPassword
-              )
-            }
-            className="absolute right-4 top-1/2 -translate-y-1/2"
-          >
-            {showConfirmPassword ? (
-              <EyeOff
-                size={18}
-              />
-            ) : (
-              <Eye
-                size={18}
-              />
-            )}
-          </button>
-        </div>
-
-        {errors.confirmPassword && (
-          <p className="mt-1 text-sm text-red-600">
-            {
-              errors
-                .confirmPassword
-                .message
-            }
-          </p>
-        )}
-      </div>
-
-      {passwordSuccess && (
-        <div className="rounded-xl border border-green-200 bg-green-50 p-4 text-green-700">
-          {passwordSuccess}
-        </div>
-      )}
-
-      {passwordError && (
-        <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-red-600">
-          {passwordError}
-        </div>
-      )}
-
-      <button
-        type="submit"
-        disabled={
-          passwordLoading
+      {/* Danger Zone */}
+      <DangerZoneSection
+        deleteConfirmation={
+          deleteConfirmation
         }
-        className="rounded-xl bg-[#2563eb] px-5 py-3 font-medium text-white hover:bg-blue-700 disabled:opacity-60"
-      >
-        {passwordLoading
-          ? "Updating..."
-          : "Update Password"}
-      </button>
-    </form>
-  )}
-</section>
-
-{/* Danger Zone */}
-<section className="rounded-2xl border border-red-200 bg-white p-6 shadow-sm">
-  <h2 className="mb-4 text-xl font-semibold text-red-600">
-    Danger Zone
-  </h2>
-
-  <p className="mb-6 text-[#64748b]">
-    Permanently delete your account and all associated data.
-    This action cannot be undone.
-  </p>
-
-  <div className="rounded-xl border border-red-200 bg-red-50 p-5">
-    <p className="mb-4 text-sm text-red-700">
-      To confirm account deletion, type:
-      {" "}
-      <strong>DELETE</strong>
-    </p>
-
-    <div className="mb-4 rounded-xl border border-orange-200 bg-orange-50 p-4 text-orange-700">
-      <p className="font-medium">
-        This action will permanently delete:
-      </p>
-
-      <ul className="mt-2 list-disc pl-5">
-        <li>Your account</li>
-        <li>All interview reports</li>
-        <li>All resume analyses</li>
-      </ul>
-    </div>
-
-    <input
-      type="text"
-      value={
-        deleteConfirmation
-      }
-      onChange={(e) =>
-        setDeleteConfirmation(
-          e.target.value
-        )
-      }
-      placeholder="Type DELETE"
-      className="
-        mb-4
-        w-full
-        rounded-xl
-        border
-        border-red-200
-        px-4
-        py-3
-        outline-none
-        focus:border-red-500
-      "
-    />
-
-    {deleteError && (
-      <div className="mb-4 rounded-xl border border-red-200 bg-white p-3 text-red-600">
-        {deleteError}
-      </div>
-    )}
-
-    <button
-      onClick={async () => {
-        try {
-          setDeleteError("");
-
-          setDeletingAccount(
-            true
-          );
-
-          await axiosInstance.delete(
-            "/api/user/account"
-          );
-
-          logout();
-
-          navigate("/");
-        } catch (error) {
-          const responseData =
-            error?.response?.data;
-
-          setDeleteError(
-            responseData?.message ||
-              "Failed to delete account"
-          );
-        } finally {
-          setDeletingAccount(
-            false
-          );
+        setDeleteConfirmation={
+          setDeleteConfirmation
         }
-      }}
-      disabled={
-        deleteConfirmation !==
-          "DELETE" ||
-        deletingAccount
-      }
-      className="
-        rounded-xl
-        bg-red-600
-        px-5
-        py-3
-        font-medium
-        text-white
-        transition
-        hover:bg-red-700
-        disabled:cursor-not-allowed
-        disabled:opacity-50
-      "
-    >
-      {deletingAccount
-        ? "Deleting Account..."
-        : "Confirm Delete"}
-    </button>
-  </div>
-</section>
+        deletingAccount={
+          deletingAccount
+        }
+        deleteError={
+          deleteError
+        }
+        handleDeleteAccount={
+          handleDeleteAccount
+        }
+      />
     </div>
   );
 }
 
 export default SettingsPage;
-
