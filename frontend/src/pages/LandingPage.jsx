@@ -23,11 +23,11 @@ import {
   FaLinkedin,
 } from "react-icons/fa";
 
-import Logo from "../components/Logo";
+import Logo from "../components/common/Logo";
 
 import { SiLeetcode } from "react-icons/si";
 
-import heroImage from "../assets/heroPage.png";
+import heroImage from "../assets/heroPage.webp";
 
 function LandingPage() {
   const navigate = useNavigate();

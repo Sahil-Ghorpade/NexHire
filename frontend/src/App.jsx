@@ -4,7 +4,7 @@ import {
   Route,
 } from "react-router-dom";
 
-import ProtectedRoute from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/common/ProtectedRoute";
 
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
@@ -19,7 +19,7 @@ import HistoryPage from "./pages/HistoryPage";
 import SettingsPage from "./pages/SettingsPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
-import SidebarLayout from "./components/SidebarLayout";
+import SidebarLayout from "./layouts/SidebarLayout";
 
 function App() {
   return (

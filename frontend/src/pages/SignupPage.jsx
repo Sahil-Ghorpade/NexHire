@@ -13,7 +13,7 @@ import { GoogleLogin } from "@react-oauth/google";
 
 import { useAuth } from "../context/AuthContext";
 
-import Logo from "../components/Logo";
+import Logo from "../components/common/Logo";
 
 /**
  * Validation Schema

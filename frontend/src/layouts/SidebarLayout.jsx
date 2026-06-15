@@ -16,7 +16,7 @@ import {
   X,
 } from "lucide-react";
 
-import Logo from "../components/Logo";
+import Logo from "../layouts/SidebarLayout";
 
 import { useAuth } from "../context/AuthContext";
 
