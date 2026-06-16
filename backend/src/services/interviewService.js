@@ -9,15 +9,9 @@ const genAI = new GoogleGenerativeAI(
   process.env.GEMINI_API_KEY
 );
 
-const questionModel =
-  genAI.getGenerativeModel({
-    model: "gemini-2.5-flash",
-  });
-
-const evaluationModel =
-  genAI.getGenerativeModel({
-    model: "gemini-3-flash",
-  });
+const model = genAI.getGenerativeModel({
+  model: "gemini-2.5-flash",
+});
 
 /**
  * Parse Gemini JSON responses
@@ -58,7 +52,7 @@ Example format:
 
     try {
       const result =
-        await questionModel.generateContent(
+        await model.generateContent(
           prompt
         );
 
@@ -156,7 +150,7 @@ Rules:
 - If you are not certain of a YouTube URL, use an official documentation page instead.
 
 Allowed only trusted domains:
-examples-
+examples
 - roadmap.sh
 - developer.mozilla.org
 - react.dev
@@ -188,7 +182,7 @@ Return ONLY valid JSON in this exact format:
 
     try {
       const result =
-        await evaluationModel.generateContent(
+        await model.generateContent(
           prompt
         );
 
