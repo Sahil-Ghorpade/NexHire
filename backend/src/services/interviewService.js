@@ -150,7 +150,7 @@ Rules:
 - If you are not certain of a YouTube URL, use an official documentation page instead.
 
 Allowed only trusted domains:
-examples
+examples:
 - roadmap.sh
 - developer.mozilla.org
 - react.dev

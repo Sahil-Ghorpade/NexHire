@@ -36,6 +36,7 @@ const signupSchema = z
         8,
         "Password must be at least 8 characters"
       )
+      .max(20, "Name must be less than 20 characters")
       .regex(
         /[A-Z]/,
         "Password must contain at least one uppercase letter"

@@ -33,7 +33,8 @@ const loginSchema = z.object({
 
   password: z
     .string()
-    .min(1, "Password is required"),
+    .min(1, "Password is required")
+    .max(51, "Invalid password"),
 });
 
 function LoginPage() {
