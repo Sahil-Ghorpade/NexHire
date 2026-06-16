@@ -140,14 +140,22 @@ Also provide:
 
 - Learning path: array of objects with "topic" and "resource"
 
-Resource URLs must ONLY come from (Avoid giving invalid URLs):
+Learning path resources must be REAL and publicly accessible URLs.
 
-youtube.com
-roadmap.sh
-developer.mozilla.org
-react.dev
-nodejs.org
-docs.python.org
+Rules:
+- Do NOT invent URLs.
+- Only provide URLs that actually exist.
+- Prefer official documentation pages.
+- For YouTube, only provide a URL if you are certain the video exists.
+- If you are not certain of a YouTube URL, use an official documentation page instead.
+
+Allowed only trusted domains:
+examples-
+- roadmap.sh
+- developer.mozilla.org
+- react.dev
+- nodejs.org
+- docs.python.org
 
 Return ONLY valid JSON in this exact format:
 

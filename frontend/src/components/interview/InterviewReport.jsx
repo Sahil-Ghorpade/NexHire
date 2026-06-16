@@ -306,7 +306,9 @@ function InterviewReport({
 
                     <a
                       href={
-                        item.resource
+                        item.resource?.startsWith("http")
+                          ? item.resource
+                          : `https://${item.resource}`
                       }
                       target="_blank"
                       rel="noreferrer"
