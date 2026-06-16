@@ -140,7 +140,7 @@ Also provide:
 
 - Learning path: array of objects with "topic" and "resource"
 
-Resource URLs must ONLY come from:
+Resource URLs must ONLY come from (Avoid giving invalid URLs):
 
 youtube.com
 roadmap.sh
